@@ -1,0 +1,29 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Build",
+            "type": "shell",
+            "command": "make qemu",
+            "args": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "detail":  "Build using gcc."
+        },
+        {
+            "label": "Test",
+            "type": "shell",
+            "command": "make qemu-gdb",
+            "args": [],
+            "group": {
+                "kind": "test"
+            },
+            "detail":  "Test using gcc."
+        }
+
+    ]
+}

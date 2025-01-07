@@ -1,0 +1,14 @@
+[
+    {
+        "arguments": [
+            "gcc",
+            "-c",
+            "-Wall",
+            "-o",
+            "a.o",
+            "a.c"
+        ],
+        "directory": "/home/ubuntu/xv6-labs-2021/test",
+        "file": "a.c"
+    }
+]

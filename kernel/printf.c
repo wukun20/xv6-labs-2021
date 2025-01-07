@@ -127,8 +127,7 @@ panic(char *s)
 }
 
 void
-printfinit(void)
-{
+printfinit(void){
   initlock(&pr.lock, "pr");
   pr.locking = 1;
 }
