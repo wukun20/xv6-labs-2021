@@ -432,3 +432,27 @@ copyinstr(pagetable_t pagetable, char *dst, uint64 srcva, uint64 max)
     return -1;
   }
 }
+
+// Print the page tabel using backtracing.
+// Use level to record the heigth of the page table tree.
+void btprint(pagetable_t pagetable, int level) {
+  if(level < 0) {
+    return;
+  }
+  for(int i = 0; i < 512; i++) {
+    pte_t pte = pagetable[i];
+    if(pte & PTE_V) {
+      for(int i = level; i <= 2; i++)
+        printf(" ..");
+      printf("%d: pte %p pa %p\n", i, pte, PTE2PA(pte));
+      btprint((pagetable_t)PTE2PA(pte), level - 1);
+    }
+  }
+}
+
+// Print the first proc page table.
+// There are lines include PTE and PA.
+void vmprint(pagetable_t pagetable) {
+  printf("page table %p\n", pagetable);
+  btprint(pagetable, 2);
+}

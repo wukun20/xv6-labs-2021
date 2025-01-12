@@ -80,7 +80,28 @@ sys_sleep(void)
 int
 sys_pgaccess(void)
 {
-  // lab pgtbl: your code here.
+  uint64 base, mask;
+  int len;
+  pte_t *pte;
+  int kmask = 0;
+  pagetable_t pagetable = myproc()->pagetable;
+  if(argaddr(0, &base) < 0 || argint(1, &len) < 0 || argaddr(2, &mask) < 0)
+    return -1;
+  if(len > 32) {
+    printf("Number of pages %d needs to be less than 32.\n", len);
+    return -1;
+  }
+  for(int i = 0; i < len; i++) {
+    if(base + i * PGSIZE >= MAXVA) 
+      break;
+    pte = walk(pagetable, base + i * PGSIZE, 0);
+    if(*pte & PTE_A) {
+      kmask = kmask | (1 << i);
+      *pte = *pte & (~ PTE_A);
+    }
+  }
+  if(copyout(pagetable, mask, (char *)&kmask, sizeof(kmask)) < 0) 
+    return -1;
   return 0;
 }
 #endif
